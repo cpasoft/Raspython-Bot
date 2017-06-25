@@ -64,5 +64,7 @@ Para mensajes que son solo informativos, tipo claves de raspito, k sabes k
 pasadas 24 horas ya estarán cogidas y no tiene sentido que se quede escrito
 en el grupo ese mensaje.
 
-- Algún easteregg (con control de flood)
+- Un comando de mensaje futuro: que se pueda preparar un mensaje para una 
+fecha/tiempo posterior, y llegado ese momento el bot genere dicho mensaje.
 
+- Algún easteregg (con control de flood)
