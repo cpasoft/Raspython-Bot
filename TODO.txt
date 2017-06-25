@@ -11,7 +11,7 @@ estarán almacenadas en un fichero, y podrá ser modificada por una lista de
 administradores y moderadores desde el propio bot a través de mensajes
 privados.
 
-- Bienvenida. Que el foro de la bienvenida a todo nuevo usuario y le envíe
+- Bienvenida. Que el bot de la bienvenida a todo nuevo usuario y le envíe
 la información básica del grupo.
 
 - Que sea capaz de memorizar tags que los moderadores podrán crear en
@@ -44,4 +44,25 @@ arcades y demás, usaremos el tag #emuladores para enviarlo para dicho grupo)
 usuarios, y si este recibe más de x (decidiremos este "x"), dicho usuario
 será expulsado del grupo por el bot.
 También los usuarios podrán, de la misma forma, quitar los reportes.
+
+- Que el bot detecte flood y advierta al usuario si realiza un flood
+superior a x en un tiempo determinado...
+
+- Un sistema de puntuación de usuarios, que cuando a alguien le guste algo 
+que ha dicho otra persona o le haya ayudado, pueda darle un "like" a algún
+mensaje. El bot llevará la cuenta de likes y cuando se le haya dado un
+cierto número mínimo de likes al mensaje en cuestión (por ejemplo, 10), se
+le aumentará en una decima la reputación a dicho usuario. Y evidentemente un
+comando para consultar el like de cierta persona. Creo que si llega a calar,
+no solo serviría para saber cuanto ayuda alguien, si no también motivaría
+mucho a la peña para que intenten ayudar.
+
+-  Un comando de mensaje de cuenta atrás: que al mensaje que se escriba a
+continuación se mantenga un cierto tiempo (es decir, un mensaje con
+caducidad) y pasado ese tiempo el bot se encargue de eliminarlo.
+Para mensajes que son solo informativos, tipo claves de raspito, k sabes k
+pasadas 24 horas ya estarán cogidas y no tiene sentido que se quede escrito
+en el grupo ese mensaje.
+
+- Algún easteregg (con control de flood)
 
