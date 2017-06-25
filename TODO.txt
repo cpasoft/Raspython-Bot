@@ -1,0 +1,47 @@
+		==> RASPYTHON-BOT <==
+
+Raspython bot pretende ser un bot de moderación creado por y para el grupo
+de Telegram @Raspython.
+
+==========================================================================
+(Requisitos iniciales - 25 de junio de 2017)
+
+- Que sea capaz de mostrar una reglas del grupo. Estas reglas del grupo
+estarán almacenadas en un fichero, y podrá ser modificada por una lista de
+administradores y moderadores desde el propio bot a través de mensajes
+privados.
+
+- Bienvenida. Que el foro de la bienvenida a todo nuevo usuario y le envíe
+la información básica del grupo.
+
+- Que sea capaz de memorizar tags que los moderadores podrán crear en
+privado, con documentación que se considere de interés con una serie de
+lanzadores. Por ejemplo #libros, y que el bot devuelva una lista de libros
+interesantes sobre python.
+
+- Que sea capaz de enviar conversaciones que se salgan de la temática del
+grupo a el resto de grupos de la familia Raspito, siguiendo las siguientes
+normas:
+
+Palabra clave:			Canal:
+#general			@GrupoRaspberryPi
+(Si alguien hace una pregunta genérica sobre la pi, como por ejemplo que
+caja comprar, que ventilador adquiri, etc., le mandaremos con el tag
+#general al grupo genérico de Raspberry)
+
+#mediacenters			@RaspberryPiMediacenters
+(Si alguien hace una pregnta sobre el uso de las pi como mediacenter o
+similares, con el tag #mediacenters le mandaremos al grupo correspondiente)
+
+#emuladores			@RaspberryPiEmuladores
+(Siguiendo la filosofía anterior, si alguien pregunta sobre emuladores,
+arcades y demás, usaremos el tag #emuladores para enviarlo para dicho grupo)
+
+#off-topic			@RaspberryPiOfftopic
+(Para todo lo demás, les enviaremos al grupo off-topic)
+
+- Sistema de advertencias. Los usuarios podrán enviar reportes a otros
+usuarios, y si este recibe más de x (decidiremos este "x"), dicho usuario
+será expulsado del grupo por el bot.
+También los usuarios podrán, de la misma forma, quitar los reportes.
+
