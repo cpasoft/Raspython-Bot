@@ -4,13 +4,19 @@ Raspython bot pretende ser un bot de moderación creado por y para el grupo
 de Telegram @Raspython.
 
 ==========================================================================
-(Requisitos iniciales - 25 de junio de 2017)
+(2017:)
+* Requisitos iniciales - 25 de junio
+* Adición del esqueleto del bot y las primeras funciones - 26 de junio
 
+[27-05 Parcialmente implementado. Ya muestra las reglas, pero las tenemos
+estáticas en el código. En el futuro las leeremos de un fichero.]
 - Que sea capaz de mostrar una reglas del grupo. Estas reglas del grupo
 estarán almacenadas en un fichero, y podrá ser modificada por una lista de
 administradores y moderadores desde el propio bot a través de mensajes
 privados.
 
+[27-05 Implementado. No hemos puesto un antiflood, igual habría que pensar
+en ponerlo...]
 - Bienvenida. Que el bot de la bienvenida a todo nuevo usuario y le envíe
 la información básica del grupo.
 
