@@ -20,7 +20,7 @@ import re
 from constantes import TOKEN, LOG_FILE, GROUPS_ID
 
 # Inicializamos el subsistema de log para nuestro bot. Todos los errores y las informaciones irán a este fichero.
-logging.basicConfig(filemode=LOG_FILE, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+logging.basicConfig(filename=LOG_FILE, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
 

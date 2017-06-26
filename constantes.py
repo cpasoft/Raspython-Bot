@@ -1,5 +1,5 @@
 #  TOKEN de nuestro bot. Es entregado por BotFather.
-TOKEN = "<PONER AQUÍ EL TOKEN DEL BOT>"
+TOKEN = "<PONER AQUI EL TOKEN DEL BOT>"
 
 #  Relación de los Chat_ID de los grupos de la Raspito's Family
 GROUPS_ID = {
@@ -7,7 +7,7 @@ GROUPS_ID = {
     "General": -1001027822398,
     "Mediacenters": -1001088073949,
     "Emuladores": -1001081864192,
-    "Off-topic": -1001051912425
+    "Off-topic": -1001051912425,
 }
 
 #  Relación de los User_ID de las personas autorizadas a hacer tareas restringidas en el Bot. (AkA moderadores)
