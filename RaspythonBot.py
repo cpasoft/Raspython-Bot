@@ -7,6 +7,10 @@
 #
 #
 
+##########################################################################
+##########################################################################
+
+
 # Librería PTB
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
@@ -20,7 +24,7 @@ import re
 from constantes import TOKEN, LOG_FILE, GROUPS_ID
 
 # Inicializamos el subsistema de log para nuestro bot. Todos los errores y las informaciones irán a este fichero.
-logging.basicConfig(filename=LOG_FILE, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+logging.basicConfig(filemode=LOG_FILE, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -68,30 +72,25 @@ def start(bot, update):
 # Función que muestra la relación de canales de la Raspito's Family
 def canales(bot, update):
     # En principio este comando lo mostraremos en todos los canales. Si vemos que hay mucho flood ya lo limitaremos.
-    update.message.reply_text("""
-🔸 Relación de los canales de la Raspito's Family 👨‍👩‍👧‍👦
-
-▫️@GrupoRaspberryPI
-Canal precursor de la Raspito's Family. Dialoga sobre los aspectos generales sobre la Raspberry PI, como donde 
-comprarla, que accesorios son recomendables, dudas sobre configuración, etc. En definitiva, todo lo relacionado sobre 
-nuestras PI que no abarquen más específicamente el resto de canales de la familia.
-
-▫️@RaspberryPiMediacenters
-Canal enfocado al uso y disfrute de nuestras Raspberry Pi como centro multimedia. 
-
-▫ @RaspberryPiEmuladores
-Canal dedicado a la temática sobre emulación en nuestras Raspberry Pi. Configura tu pequeña Pi como un centro de juego 
-arcade. Disfruta con la emulación!.
-
-▫ @Raspython
-Grupo para debatir, dialogar y preguntar sobre todo lo relacionado con la programación en Python y Raspberry. Este Bot  
-es precisamente un proyecto desarrollado en este canal. Únete y disfruta.
-
-▫ @RaspberryPiOfftopic
-¿Te apetece hablar con los compañeros de la Raspito's family sobre cualquier otro tema?, pues este es tu canal. Entra  
-charla, comparte y disfruta con el resto de compañeros sin límite de temática. (Contenido sexual explícito, violento  
-y de temáticas similares está prohibido)
-    """)
+    update.message.reply_text("🔸 Relación de los canales de la Raspito's Family 👨‍👩‍👧‍👦\n\n"
+                              "▫️@GrupoRaspberryPI\n"
+                              "Canal precursor de la Raspito's Family. Dialoga sobre los aspectos generales "
+                              "sobre la Raspberry PI, como donde comprarla, que accesorios son recomendables, "
+                              "dudas sobre configuración, etc. En definitiva, todo lo relacionado sobre nuestras "
+                              "PI que no abarquen más específicamente el resto de canales de la familia.\n\n"
+                              "▫️@RaspberryPiMediacenters\n"
+                              "Canal enfocado al uso y disfrute de nuestras Raspberry Pi como centro multimedia.\n\n"
+                              "▫ @RaspberryPiEmuladores"
+                              "Canal dedicado a la temática sobre emulación en nuestras Raspberry Pi. Configura tu "
+                              "pequeña Pi como un centro de juego arcade. Disfruta con la emulación!.\n\n"
+                              "▫ @Raspython\n"
+                              "Grupo para debatir, dialogar y preguntar sobre todo lo relacionado con la programación "
+                              "en Python y Raspberry. Este Bot es precisamente un proyecto desarrollado en este canal. "
+                              "Únete y disfruta.\n\n▫ @RaspberryPiOfftopic\n"
+                              "¿Te apetece hablar con los compañeros de la Raspito's family sobre cualquier otro "
+                              "tema?, pues este es tu canal. Entra charla, comparte y disfruta con el resto de "
+                              "compañeros sin límite de temática. (Contenido sexual explícito, violento y de temáticas "
+                              "similares está prohibido)")
 
 
 # Función que tiene como objeto mostrar las reglas del grupo
@@ -99,13 +98,13 @@ y de temáticas similares está prohibido)
 # en un futuro residirán en un fichero
 def normas(bot, update):
     # En principio este comando lo mostraremos en todos los canales. Si vemos que hay mucho flood ya lo limitaremos.
-    update.message.reply_text("""
-Aquí mostraremos las reglas del grupo. Aún están por redactar.
-Para empezar, se aplican las reglas lógicas. Nada de contenido sexualmente explícito, nada de insultos o degradación a  
-otros usuarios del grupo, no está permitido el spam ni la publicidad de otros grupos y/o canales, y cualquier tema no 
-relacionado sobre python deberá ir a su canal correspondiente. Deberemos debatir entre todos la redacción de unas 
-reglas concisas para ocupar este espacio.
-""")
+    update.message.reply_text("📜 Las reglas de este grupo son muy sencillas...\n\n"
+                              "⛔️Nada de sexo explícito, ni política, ni religión, ni nada no relacionado "
+                              "con la temática del canal.\n"
+                              "🚫 Tampoco están permitidos los enlaces a otros grupos o páginas webs que cumplan "
+                              "los criterios anteriormente descritos.\n"
+                              "❓ En caso de dudas, consultar con cualquier administrador del grupo.\n\n"
+                              "🤙🏼 Como último requisito, pasarlo bien, disfrutar, compartir y que fluya el buen rollo")
 
 
 # En esta función trataremos los comandos no reconocidos. De momento lo dejamos en "pass" para ignorarlos
@@ -120,9 +119,11 @@ def trata_texto(bot, update):
     texto = update.message.text
     # En el siguiente ejemplo, si alguien mete la palabra bot, responderemos con un mensaje y el id del usuario y grupo
     # Es un ejemplo temporal. Aquí irán los tratamientos de envíos a otros canales, y los lanzadores a través de tags
-    if re.search(r"(?i)\bbot\b", texto):
-        update.message.reply_text("¿Me has nombrado?\n"
-                                  "Que sepas que me hablas desde {} y tu ID es {}\n".format(chat_id, user_id))
+#    if re.search(r"(?i)\bbot\b", texto):
+#        update.message.reply_text("¿Me has nombrado?\n"
+#                                  "Que sepas que me hablas desde {} y tu ID es {}\n".format(chat_id, user_id))
+    if re.search(r"(?i)qu[eé] es raspito\b", texto):
+         update.message.reply_text("...son los padres")
 
 
 def bienvenida(bot, update):

@@ -10,10 +10,19 @@ de Telegram @Raspython.
 
 [27-05 Parcialmente implementado. Ya muestra las reglas, pero las tenemos
 estáticas en el código. En el futuro las leeremos de un fichero.]
-- Que sea capaz de mostrar una reglas del grupo. Estas reglas del grupo
-estarán almacenadas en un fichero, y podrá ser modificada por una lista de
-administradores y moderadores desde el propio bot a través de mensajes
-privados.
+- Que sea capaz de mostrar una reglas del grupo. Se ha decidido dejar como
+estático, porque no es una cosa que cambie muy amenudo como para que merezca
+el exfuerzo de hacerlo editable en vivo.
+"""
+Las reglas de este grupo son muy sencillas... Nada de sexo explícito, ni
+política, ni religión, ni discusiones deportivas,  ni nada no relacionado
+con la temática del canal.
+Tampoco están permitidos los enlaces a otros grupos o páginas webs que no
+cumplan los criterios anteriormente descritos. En caso de dudas, consultar
+con cualquier administrador del grupo.
+Como último requisito, pasarlo bien, disfrutar, compartir y que fluya el
+buen rollo
+"""
 
 [27-05 Implementado. No hemos puesto un antiflood, igual habría que pensar
 en ponerlo...]
@@ -73,4 +82,10 @@ en el grupo ese mensaje.
 - Un comando de mensaje futuro: que se pueda preparar un mensaje para una 
 fecha/tiempo posterior, y llegado ese momento el bot genere dicho mensaje.
 
+- Cuando alguien mande un link, añadir un sistema de me gusta no me gusta, y
+si llega a x negativos, se borra el mensaje.
+
 - Algún easteregg (con control de flood)
+
+- La ayuda que la envíe a privado, y si no puede, que muestre el mensaje de
+que lo pregunte por privado
