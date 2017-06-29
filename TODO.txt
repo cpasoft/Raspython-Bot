@@ -8,6 +8,13 @@ de Telegram @Raspython.
 * Requisitos iniciales - 25 de junio
 * Adición del esqueleto del bot y las primeras funciones - 26 de junio
 * Creada sección de opciones ya implementadas al pie de este documento - 28 de junio
+[Reunión del 29 de junio]
+* Se acuerdan las siguientes condiciones para el antiflood:
+-> Más de 4 mensajes en 10 segundos:
+	1º) Advertencia
+	2º) Borrado de mensajes
+	3º) Kick/Ban
+
 
 - Que sea capaz de enviar conversaciones que se salgan de la temática del
 grupo a el resto de grupos de la familia Raspito, siguiendo las siguientes
