@@ -9,8 +9,6 @@ de Telegram @Raspython.
 * Adición del esqueleto del bot y las primeras funciones - 26 de junio
 * Creada sección de opciones ya implementadas al pie de este documento - 28 de junio
 
-- Implementar un decorador antiflood
-
 - Que sea capaz de enviar conversaciones que se salgan de la temática del
 grupo a el resto de grupos de la familia Raspito, siguiendo las siguientes
 normas:
@@ -64,8 +62,7 @@ si llega a x negativos, se borra el mensaje.
 
 - Algún easteregg (con control de flood)
 
-- La ayuda que la envíe a privado, y si no puede, que muestre el mensaje de
-que lo pregunte por privado
+
 =======================================================================================
 =======================================================================================
 YA IMPLEMENTADO:
@@ -89,3 +86,8 @@ la información básica del grupo.
 privado, con documentación que se considere de interés con una serie de
 lanzadores. Por ejemplo #libros, y que el bot devuelva una lista de libros
 interesantes sobre python.
+
+- Implementar un decorador antiflood
+
+- La ayuda que la envíe a privado, y si no puede, que muestre el mensaje de
+que lo pregunte por privado
