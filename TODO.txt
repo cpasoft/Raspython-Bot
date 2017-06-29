@@ -7,32 +7,9 @@ de Telegram @Raspython.
 (2017:)
 * Requisitos iniciales - 25 de junio
 * Adición del esqueleto del bot y las primeras funciones - 26 de junio
+* Creada sección de opciones ya implementadas al pie de este documento - 28 de junio
 
-[27-05 Parcialmente implementado. Ya muestra las reglas, pero las tenemos
-estáticas en el código. En el futuro las leeremos de un fichero.]
-- Que sea capaz de mostrar una reglas del grupo. Se ha decidido dejar como
-estático, porque no es una cosa que cambie muy amenudo como para que merezca
-el exfuerzo de hacerlo editable en vivo.
-"""
-Las reglas de este grupo son muy sencillas... Nada de sexo explícito, ni
-política, ni religión, ni discusiones deportivas,  ni nada no relacionado
-con la temática del canal.
-Tampoco están permitidos los enlaces a otros grupos o páginas webs que no
-cumplan los criterios anteriormente descritos. En caso de dudas, consultar
-con cualquier administrador del grupo.
-Como último requisito, pasarlo bien, disfrutar, compartir y que fluya el
-buen rollo
-"""
-
-[27-05 Implementado. No hemos puesto un antiflood, igual habría que pensar
-en ponerlo...]
-- Bienvenida. Que el bot de la bienvenida a todo nuevo usuario y le envíe
-la información básica del grupo.
-
-- Que sea capaz de memorizar tags que los moderadores podrán crear en
-privado, con documentación que se considere de interés con una serie de
-lanzadores. Por ejemplo #libros, y que el bot devuelva una lista de libros
-interesantes sobre python.
+- Implementar un decorador antiflood
 
 - Que sea capaz de enviar conversaciones que se salgan de la temática del
 grupo a el resto de grupos de la familia Raspito, siguiendo las siguientes
@@ -89,3 +66,26 @@ si llega a x negativos, se borra el mensaje.
 
 - La ayuda que la envíe a privado, y si no puede, que muestre el mensaje de
 que lo pregunte por privado
+=======================================================================================
+=======================================================================================
+YA IMPLEMENTADO:
+- Que sea capaz de mostrar una reglas del grupo. Se ha decidido dejar como
+estático, porque no es una cosa que cambie muy amenudo como para que merezca
+el exfuerzo de hacerlo editable en vivo.
+"""
+📜 Las reglas de este grupo son muy sencillas...
+
+⛔️Nada de sexo explícito, ni política, ni religión, ni nada no relacionado con la temática del canal.
+🚫 Tampoco están permitidos los enlaces a otros grupos o páginas webs que cumplan los criterios anteriormente descritos.
+❓ En caso de dudas, consultar con cualquier administrador del grupo.
+
+🤙🏼 Como último requisito, pasarlo bien, disfrutar, compartir y que fluya el buen rollo
+"""
+
+- Bienvenida. Que el bot de la bienvenida a todo nuevo usuario y le envíe
+la información básica del grupo.
+
+- Que sea capaz de memorizar tags que los moderadores podrán crear en
+privado, con documentación que se considere de interés con una serie de
+lanzadores. Por ejemplo #libros, y que el bot devuelva una lista de libros
+interesantes sobre python.
