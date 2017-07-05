@@ -42,13 +42,15 @@ from functools import wraps
 # Las importamos una a una por claridad y para saber cuales añadimos nuevas
 from constantes import TOKEN, LOG_FILE, GROUPS_ID, HASHTAG_FILE, ADMINS, START, END, HASHTAG, ANTIFLOOD, ANTIFLOOD_FILE
 from constantes import ANTIFLOOD_MINUTES, ANTIFLOOD_TAG, ANTIFLOOD_TAG_FILE
+from constantes import MSG_FLOOD, MSG_AFLOOD_FILE, AFLOOD_MSGS, AFLOOD_TIME, AFLOOD_MINUTES_DEL
 
 # Variables globales:
 # Semáforo para ficheros. Usado para controlar la grabación de ficheros en modo asíncrono
 semaforo = {
     HASHTAG: False,
     ANTIFLOOD: False,
-    ANTIFLOOD_TAG: False
+    ANTIFLOOD_TAG: False,
+    MSG_FLOOD: False
 }
 
 # Inicializamos el subsistema de log para nuestro bot. Todos los errores y las informaciones irán a este fichero.
@@ -91,6 +93,7 @@ def authorized(func):
         # Si lo intenta ejecutar en el grupo, no lo permitimos.
         else:
             return
+
     return wrapped
 
 
@@ -174,9 +177,9 @@ Muestra la relación de tags con información disponibles
         # Si el usuario es un Admin, le mandamos la extensión de ayuda a administradores
         if user_id in ADMINS:
             bot.send_message(chat_id=user_id, text="🔐 ***ADMIN DETECTED***‼\n"
-                                      "Como admin, tienes derecho a añadir, editar y borrar tags.\n"
-                                      "Envía /tags para obtener más ayuda sobre cómo hacerlo.",
-                                      parse_mode=ParseMode.MARKDOWN)
+                                                   "Como admin, tienes derecho a añadir, editar y borrar tags.\n"
+                                                   "Envía /tags para obtener más ayuda sobre cómo hacerlo.",
+                             parse_mode=ParseMode.MARKDOWN)
     # Si no hemos podido enviarlo por privado...
     except:
         update.message.reply_text("Para acceder a la ayuda, pincha en <a href='http://t.me/RaspythonBot'>"
@@ -241,15 +244,104 @@ def comando_invalido(bot, update):
 
 # Función en la que filtraremos los datos enviados por el usuario y que trataremos según corresponda
 # De momento sólo responde a un pequeño easteregg en honor a "Raspito". Tiene control de flood
-@antiflood
 @run_async
 def trata_texto(bot, update):
-    # chat_id = update.message.chat_id
+    chat_id = update.message.chat_id
     # user_id = update.message.from_user.id
+
+    # Si se está hablando desde uno de los canales del grupo, pasamos el antiflood
+    if chat_id in GROUPS_ID.values():
+        msg_antiflood(bot, update)
+
     texto = update.message.text
 
     if re.search(r"(?i)qu[eé] es raspito\b", texto):
         update.message.reply_text("...son los padres")
+
+
+def msg_antiflood(bot, update):
+    chat_id = update.message.chat_id
+    user_id = str(update.message.from_user.id)
+    name = update.message.from_user.name
+    message_id = update.message.message_id
+    time = datetime.datetime.now()
+    user_time = None
+
+    # El diccionario flood time tendrá la siguiente estructura:
+    # ID de usuario : [ Hora de último bloque, Contador mensajes, Warnings, Advertido ]
+    flood_tab = read_json(MSG_AFLOOD_FILE)
+
+    # Si ha habido error en lectura
+    if flood_tab is None:
+        logger.info("Error en la lectura del fichero de Aflood de mensajes")
+        return
+
+    # Si el usuario ya está registrado
+    if user_id in flood_tab:
+        # Convertimos la hora:
+        user_time = datetime.datetime.strptime(flood_tab[user_id][0], "%d-%m-%Y %H:%M:%S")
+        # Comprobamos la hora de su último bloque de mensajes
+        if user_time > time - datetime.timedelta(seconds=AFLOOD_TIME):
+            # Si entra dentro del rango de flood, le sumamos uno al contador de mensajes
+            flood_tab[user_id][1] += 1
+        elif user_time < time + datetime.timedelta(hours=24):
+            # Si no, y no han pasado 24 h. le registramos el nuevo bloque de mensajes manteniendo
+            # los warning ya existentes
+            flood_tab[user_id] = [time.strftime("%d-%m-%Y %H:%M:%S"), 1, flood_tab[user_id][2],
+                                  flood_tab[user_id][3]]
+        else:
+            # Si han pasado más de 24 horas, le bajamos un grado de nivel de warning
+            if flood_tab[user_id][2] >= 2:
+                warnings = 1
+            else:
+                warnings = 0
+            flood_tab[user_id] = [time.strftime("%d-%m-%Y %H:%M:%S"), 1, warnings, 0]
+    else:
+        # Si el usuario no existe, pasamos a registrarlo
+        flood_tab[user_id] = [time.strftime("%d-%m-%Y %H:%M:%S"), 1, 0, 0]
+
+    # Si ha pasado el tiempo de castigo de borrado de mensajes, le bajamos un nivel. A la próxima fuera!
+    if flood_tab[user_id][2] == 2 and user_time + datetime.timedelta(minutes=AFLOOD_MINUTES_DEL) < time:
+        flood_tab[user_id][2] = flood_tab[user_id][2] - 1
+
+    # Ahora comprobamos cómo está el usuario respecto a contadores y warnings
+    # Si el contador es igual o mayor que el número máximo de mensajes, aumentamos warnings
+    if flood_tab[user_id][1] >= AFLOOD_MSGS:
+        # Si ya ha sido advertido alguna vez del nivel 2:
+        if flood_tab[user_id][3]:
+            flood_tab[user_id] = [time.strftime("%d-%m-%Y %H:%M:%S"), 0, 3, flood_tab[user_id][3]]
+        else:
+            flood_tab[user_id] = [time.strftime("%d-%m-%Y %H:%M:%S"), 0,
+                                  flood_tab[user_id][2] + 1, flood_tab[user_id][3]]
+
+    # Y ahora hacemos según tenga el warning
+    # Si es el primer warning
+    if flood_tab[user_id][2] == 1 and flood_tab[user_id][1] == 0:
+        update.message.reply_text("⚠️***PRIMERA ADVERTENCIA*** ⚠️\nEl flood no está permitido. "
+                                  "No puedes enviar más de {} mensajes en {} segundos"
+                                  .format(AFLOOD_MSGS, AFLOOD_TIME), parse_mode=ParseMode.MARKDOWN)
+    elif flood_tab[user_id][2] == 2 and flood_tab[user_id][1] == 0:
+        # Si ya es la segunda vez que está en este nivel en 24h, a la calle
+        update.message.reply_text("⛔️***SEGUNDA ADVERTENCIA***‼️\nEl flood no está permitido. "
+                                  "Los mensajes que envíe durante los  próximos {} minutos serán, eliminados.\n‼️"
+                                  "***No hay más advertencias, a la siguiente, FUERA***‼️"
+                                  .format(AFLOOD_MSGS, AFLOOD_MINUTES_DEL), parse_mode=ParseMode.MARKDOWN)
+        flood_tab[user_id][3] += 1
+    elif flood_tab[user_id][2] >= 2:
+        # Si ya estamos a nivel warning 2, le borramos el mensaje
+        del_right = bot.delete_message(chat_id=chat_id, message_id=message_id)
+        if not del_right:
+            logger.info("Problema al borrar el mensaje {} del usuario {}".format(message_id, user_id))
+
+    # Si alcanza warning 3, o es la segunda vez que alcanza warning 2, a la calle!
+    if flood_tab[user_id][2] > 2 or flood_tab[user_id][2] == 2 and flood_tab[user_id][3] > 1:
+        bot.send_message(chat_id=chat_id, text="EL USUARIO {}{} HA SIDO EXPULSADO POR FLOOD CONTINUO"
+                         .format(user_id, name))
+        bot.send_message(chat_id=209200079, text="EL USUARIO {}{} HA SIDO EXPULSADO POR FLOOD CONTINUO"
+                         .format(user_id, name))
+        bot.kick_chat_member(chat_id=chat_id, user_id=user_id)
+
+    graba_json(MSG_FLOOD, MSG_AFLOOD_FILE, flood_tab)
 
 
 # Función en la que tratamos los hashtags de los mensajes
@@ -486,7 +578,16 @@ def bienvenida(bot, update):
     chat_id = update.message.chat_id
     if chat_id == GROUPS_ID["Raspython"]:
         update.message.reply_text("Bienvenido al grupo de Raspython... DISFRUTA Y PARTICIPA! 👋🏼\n"
-                                  "Ábreme un privado para obtener información...")
+                                  "Ábreme un privado <a href='http://t.me/RaspythonBot'>"
+                                  "PINCHANDO AQUÍ</a> e iníciame para obtener información...",
+                                  parse_mode=ParseMode.HTML)
+
+
+def idchannel(bot, update):
+    chat_id = update.message.chat_id
+    user_id = update.message.from_user.id
+    name = update.message.from_user.name
+    update.message.reply_text("{}, tienes el UserID: {} y me escribes desde {}".format(name, user_id, chat_id))
 
 
 def main():
@@ -501,6 +602,7 @@ def main():
     dispatcher.add_handler(CommandHandler("canales", canales))
     dispatcher.add_handler(CommandHandler("normas", normas))
     dispatcher.add_handler(CommandHandler("tags", list_tags))
+    dispatcher.add_handler(CommandHandler("idchannel", idchannel))
 
     # Capturador de nuevos miembros
     dispatcher.add_handler(MessageHandler(Filters.status_update.new_chat_members, bienvenida))
